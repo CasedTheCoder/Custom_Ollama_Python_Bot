@@ -6,9 +6,6 @@ This bot is under development, thanks for your patience!
 
 This bot needs to connect with ollama, so you need to install it and run it
 
-```
-
-```
 Now, you can chat with the model by typing /chat in the Bot. In the current version, to change the model, you need to modify the code. User control is allowed by modifying the allowed_users variable.
 
 ## Current Features
