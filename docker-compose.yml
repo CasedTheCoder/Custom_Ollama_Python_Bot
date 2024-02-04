@@ -1,0 +1,10 @@
+version: '2.4'
+
+services:
+
+  ollama-bot:
+    image: casedthecoder/ollamabot:latest
+    container_name: ollamabot
+    environment:
+      - BOT_TOKEN=6384933283:AAHl6Geflur4OqqfhbOIIPuTOjk6WflRBzQ
+      - ALLOWED_USERS=CasedUgr # Allowed User Names Separated by commas

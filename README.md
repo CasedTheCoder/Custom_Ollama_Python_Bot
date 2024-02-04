@@ -9,10 +9,8 @@ This bot needs to connect with ollama, so you need to install it and run it
 Now, you can chat with the model by typing /chat in the Bot. In the current version, to change the model, you need to modify the code. User control is allowed by modifying the allowed_users variable.
 
 ## Current Features
-- Chat command with /chat
+- Chat command
 - User control
 - List the available models with a command
 - Change the model with a command
-
-## Next Features
-- Dockerfile to deploy it as a container
+- Dockerfile and Docker Compose to deploy it as a container in an easy way

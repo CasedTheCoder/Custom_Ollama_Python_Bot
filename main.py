@@ -9,10 +9,12 @@ if __name__ == '__main__':
 
     print("Running Ollama_Bot...")
 
-    BOT_TOKEN = "<your_bot_token>"
+    BOT_TOKEN = os.environ.get("BOT_TOKEN")
     bot = telebot.TeleBot(BOT_TOKEN)
 
-    allowed_users = ["<your_telegram_username>"]
+    allowed_users = os.environ.get("ALLOWED_USERS")
+    allowed_users = allowed_users.split(",")
+
     allowed_models = ["llama2", "mistral", "dolphin-phi", "neural-chat", "starling-lm",
                       "codellama", "llama2-uncensored", "orca-mini", "vicuna", "llava"]
 
