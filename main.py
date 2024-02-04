@@ -7,38 +7,53 @@ model = "llama2"
 
 if __name__ == '__main__':
 
-    print("Running LLMBot...")
+    print("Running Ollama_Bot...")
 
     BOT_TOKEN = "<your_bot_token>"
     bot = telebot.TeleBot(BOT_TOKEN)
 
-    #allowed_users = ["your_user"]
+    allowed_users = ["<your_telegram_username>"]
+    allowed_models = ["llama2", "mistral", "dolphin-phi", "neural-chat", "starling-lm",
+                      "codellama", "llama2-uncensored", "orca-mini", "vicuna", "llava"]
+
+    model = "llama2"
+
+
+    @bot.message_handler(commands=['listmodels'])
+    def chat_handler(message):
+        if message.chat.username in allowed_users:
+            bot.send_message(message.chat.id,
+                                        "Available models: \n- " + '\n- '.join(allowed_models),
+                                        parse_mode="Markdown")
+        else:
+            bot.send_message(message.chat.id, "You are not allowed to use this bot", parse_mode="Markdown")
+
 
     @bot.message_handler(commands=['chat'])
     def chat_handler(message):
-        #if message.chat.username in allowed_users:
-        sent_msg = bot.send_message(message.chat.id,
-                         "¿Qué quieres saber hoy? ",
-                         parse_mode="Markdown")
-        bot.register_next_step_handler(sent_msg, message_handler)
-        #else:
-        #    bot.send_message(message.chat.id, "You are not allowed to use this bot", parse_mode="Markdown")
+        if message.chat.username in allowed_users:
+            sent_msg = bot.send_message(message.chat.id,
+                             "Ask me something! ",
+                             parse_mode="Markdown")
+            bot.register_next_step_handler(sent_msg, message_handler)
+        else:
+            bot.send_message(message.chat.id, "You are not allowed to use this bot", parse_mode="Markdown")
 
 
-    @bot.message_handler(commands=['cambiarmodelo'])
+    @bot.message_handler(commands=['changemodel'])
     def chat_handler(message):
-        #if message.chat.username in allowed_users:
-        sent_msg = bot.send_message(message.chat.id,
-                                    "¿Qué modelo quieres? ",
-                                    parse_mode="Markdown")
-        bot.register_next_step_handler(sent_msg, model_change)
-        #else:
-        #    bot.send_message(message.chat.id, "You are not allowed to use this bot", parse_mode="Markdown")
+        if message.chat.username in allowed_users:
+            sent_msg = bot.send_message(message.chat.id,
+                                        "Which model do you want to use? ",
+                                        parse_mode="Markdown")
+            bot.register_next_step_handler(sent_msg, model_change)
+        else:
+            bot.send_message(message.chat.id, "You are not allowed to use this bot", parse_mode="Markdown")
 
     def message_handler(message):
         msg = message.text
 
-        bot.send_message(message.chat.id, "Usando el modelo: " + model, parse_mode="Markdown")
+        bot.send_message(message.chat.id, "Using model: " + model, parse_mode="Markdown")
 
         response = ollama.chat(model=model, messages=[
             {
@@ -51,7 +66,25 @@ if __name__ == '__main__':
 
     def model_change(message):
         new_model = message.text
-        model = new_model
+        if message.text in allowed_models:
+            data = ollama.list()
+
+            # Check if your variable matches any 'name' field
+            matched = False
+            for mod in data['models']:
+                if new_model in mod['name']:
+                    matched = True
+
+            if not matched:
+                bot.send_message(message.chat.id, "Model not found, downloading it...", parse_mode="Markdown")
+                ollama.pull(new_model)
+                bot.send_message(message.chat.id, "Model successfully downloaded!!!", parse_mode="Markdown")
+
+            global model
+            model = new_model
+            bot.send_message(message.chat.id, "Model changed to " + new_model, parse_mode="Markdown")
+        else:
+            bot.send_message(message.chat.id, "The model " + new_model + " does not exist or it is not currently supported!", parse_mode="Markdown")
 
     bot.infinity_polling()
 

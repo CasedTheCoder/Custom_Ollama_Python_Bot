@@ -11,8 +11,8 @@ Now, you can chat with the model by typing /chat in the Bot. In the current vers
 ## Current Features
 - Chat command with /chat
 - User control
-
-## Next Features
 - List the available models with a command
 - Change the model with a command
+
+## Next Features
 - Dockerfile to deploy it as a container
