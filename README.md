@@ -6,8 +6,6 @@ This bot is under development, thanks for your patience!
 
 This bot needs to connect with ollama, so you need to install it and run it. However, if you use the Docker implementation, ollama is already installed within in.
 
-Now, you can chat with the model by typing /chat in the Bot. In the current version, to change the model, you need to modify the code. User control is allowed by modifying the allowed_users variable.
-
 ## Current Features
 - Chat command
 - User control
