@@ -6,5 +6,5 @@ services:
     image: casedthecoder/ollamabot:latest
     container_name: ollamabot
     environment:
-      - BOT_TOKEN=6384933283:AAHl6Geflur4OqqfhbOIIPuTOjk6WflRBzQ
-      - ALLOWED_USERS=CasedUgr # Allowed User Names Separated by commas
+      - BOT_TOKEN=<your_bot_token>
+      - ALLOWED_USERS=<allowed_telegram_user_names> # Allowed User Names Separated by commas
